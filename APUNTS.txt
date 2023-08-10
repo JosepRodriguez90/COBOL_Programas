@@ -1,0 +1,183 @@
+***********************************************************************
+                        RESETAR VARIABLE (INICIALIZAR)
+***********************************************************************
+    INITIALIZE NOMBEVARIABLE. (Si es numerico lo pone en zeros si es alfanumerico en espacios).
+
+***********************************************************************
+                        NEGATIUS, DECIMALS
+***********************************************************************
+01 NUM1 PIC 99V99  *> V els decimals
+(Resultat per exemple:)
+10.27
+
+01 NUM1 PIC S99V99 *>el valor S fa referencia a simbol, por ser - o +
+-10.27
+
+
+***********************************************************************
+          CONSTANTE, REDEFINES, INDICADORS CONDICIONALS
+***********************************************************************
+*CONSTANTE:
+    01 FILLER PIC X(15) VALUE "Texto FILLER" *>No li pots canviar el valor es una constant.
+
+
+*REDEFINES: Transformar un valor numeric a un string.
+
+    77 NUM1 PIC 9(5)
+    77 NUM2 REDEFINES NUM1 PIC X(7) (REDEFINES sempre s'ha de declarar sota de la variable que volem redefinir).
+
+    MOVE 10 TO NUM1
+
+    DISPLAY NUM2 *> Mostrara per pantalla el de 10.
+
+*INDICADORS CONDICIONALS:
+
+                     [IS] [NOT]
+
+    [Equal to (=),Greater than (>), Less than (<),
+     Greater than or Equal (>=), Less than or equal (<=) ]
+
+    Ejemplo:
+
+   IF NUM1 IS GREATER THAN OR EQUAL TO NUM2 THEN
+      DISPLAY 'WS-NUM1 IS GREATER THAN WS-NUM2'
+
+   IF (NUM1 > NUM2) OR (NUM1 = NUM2) THEN
+      DISPLAY 'WS-NUM1 IS GREATER THAN WS-NUM2'
+
+
+***********************************************************************
+                          CARACTERS
+***********************************************************************
+
+*CONTAR CARACTERS:
+
+   WORKING-STORAGE SECTION.
+   01 WS-CNT1 PIC 9(2) VALUE 0.
+   01 WS-CNT2 PIC 9(2) VALUE 0.
+   01 WS-STRING PIC X(15) VALUE 'ABCDACDADEAAAFF'.
+
+   PROCEDURE DIVISION.
+   (inspeccionar)   (contant)         (para todos)   (caracters)
+   INSPECT WS-STRING TALLYING WS-CNT1 FOR ALL WS-CNT1 CHARACTERS    *>Contara el numero de caracters del string
+   DISPLAY "Total Characters: " WS-CNT1.
+
+
+   INSPECT WS-STRING TALLYING WS-CNT2 FOR ALL 'A' *>Contara el numero de caracters "A" que hi han
+   DISPLAY "Occurrences of 'A': " WS-CNT2.
+
+   Mostra per pantalla:
+   Total Characters: 15
+   Occurrences of 'A': 06
+
+*REMPLAZAR CARACTERS:
+
+   DISPLAY "OLD STRING : "WS-STRING.
+   INSPECT WS-STRING REPLACING ALL 'A' BY 'X'. *>remplaça tots els caracters A per X
+   DISPLAY "NEW STRING : "WS-STRING.
+
+    mostra:
+    OLD STRING : ABCDACDADEAAAFF
+    NEW STRING : XBCDXCDXDEXXXFF
+
+*GUARDAR UN STRING FINS TROBAR UN ESPAI:
+
+    WORKING-STORAGE SECTION.
+    01 WS-STR1 PIC A(30) VALUE 'Tutorials point'.
+    01 WS-STRING PIC A(30).
+
+    PROCEDURE DIVISION.
+
+    STRING WS-STR1 DELIMITED BY SPACE
+    INTO WS-STRING
+    END-STRING.
+
+    DISPLAY 'WS-STR1 : 'WS-STR1.
+    DISPLAY 'WS-STRING : 'WS-STRING.
+
+    mostra:
+    WS-STRING : Tutorials point
+    WS-STRING : Tutorials
+
+//NOTA: Se pot fer amb el STRING agafar varis variables declarades i formar una, en canvi el UNSTRING de una variable declarada en pot crear varis variables (UNSTRING vols dir desencadenar).
+//Font per mes coses: https://www.tutorialspoint.com/es/cobol/cobol_string_handling.htm
+
+
+***********************************************************************
+                            NIVELLS
+***********************************************************************
+
+WORKING-STORAGE SECTION.SECTION
+77 VARIABLE SIMPLE                          *>Pot ser 01 o 77. (77 Si sas segur que la variable no es subdividira. Es a dir, no sera composta).
+01 VARIABLE-COMPUESTA                       *>Variable composta te que ser 01.
+    02 TXT1 PIC X(12) VALUE "Programacion"  *>Sub-variable van del 02 al 49
+    02 TXT3 PIC X VALUE SPACE
+    02 TXT2 PIC X(5) VALUE "Facil"
+
+01 EDAD PIC 999
+    88 JOVEN VALUE 1 THRU 40                *>El nivell 88 per posibles valors que es poden enmagatzemar a una variable.
+    88 MADRURO VALUE 41 THRU 65
+    88 ANCIANO VALUE 66 THRU 100
+
+***********************************************************************
+                               PERFORM (subrutina), GO TO
+***********************************************************************
+PERFOM MOSTRAR-NOMBRE THRU MOSTRAR-APELLIDO (Executa el perform de mostrar-nombre i despres acte seguit el mostrar apellido)
+PERFOM MOSTRAR-NOMBRE 10 TIMES (Executa el perform 10 vegades)
+PERFOM MOSTRAR-NUM UNTIL NUM1 = 100
+PERFORM VARYIUNG NUM1 FROM 1 BY 1 UNTIL NUM1>100 (Comença per 1 s'incrementa 1 fins que el valor del NUM1 sigui mes gran que 100)
+
+
+*GO TO VS PERFOM
+
+En resumen, la principal diferencia es que "PERFORM MOSTRAR-DATO" invoca una subrutina
+o un párrafo y luego regresa al punto de llamada después de completar su ejecución,
+mientras que "GO TO MOSTRAR-DATO" salta directamente al párrafo o etiqueta especificado y continúa desde ese punto sin retornar al punto de llamada.
+No recomanen el GO TO ya que no funciona de forma tant estructurat i esta absolet.
+
+
+***********************************************************************
+                         OPEN, CLOSE, WRITE
+***********************************************************************
+Tipos de OPEN:
+    -OPEN EXTEND: Si el archiu existeix s'obra i els seguents registres que creis es fiquen al final, si no existeix el cree. (Nomes serveix de forma sequencial).
+    -OPEN I-O: Si el archiu existeis s'obre i pots llegir i escriure amb ell, si no existeix mostra error
+    -OPEN INPUT: Si el archiu existeix s'obra i podem llegir els archius, si no existeix mostra error'
+    -OPEN OUTPUT: Si el archiu existeis borra i crea un de nou, si no existeix el crea.
+
+SELECT OPCIONAL: D'aquesta forma indicarem que si el archiu s'obra amb algun d'aquestos 2 modes, se crea automaticament sense generar error de compilacio.
+
+
+***********************************************************************
+                         ORGANIZATION ARCHIVO, ACCESS
+***********************************************************************
+
+HI HA LA ORGANIZATION SEQUENCIA I LA INDEXADA RECORD O INDEADA REALTIVE, LA FINALITAT PRINCIPAL ES COM ESTARA ORGANITZAT EL ARCHIU
+SI SERA DE FORMA SEQUENCIAL UN REGISTRE DARRERA L'ALTRE POR ORDRE DE CREACIÓ O SI SERA ORDENAT PER CLAU PRIMARIA
+NO ES POR ORDENAR PER CLAU ALTERNA.
+LA DIFERENCIA DEL REGISTRE INDEXADA RECORD I LA RELATIVE, ES QUE EL RECORD BUSCARA LA CLAU PRIMARIA O LA ALTERNA SI vols
+I LA RELATIVE LA UBICACIO DEL REGISTRE. EXEMPLE JO VULL VEURE EL SEGON REGISTRE QUE HE FICAT.
+
+EL ACCESS ES PER ACCEDIR AL ARCHIU PER FER ALGUNA BUSQUEDA.
+EL DYNAMIC NOS PERMITE ACCEDER DE FORMA SEQUENCIAL COMO ALEATORIA. POR EJEMPLO,
+SE PUEDE USAR LA INSTRUCCION READ CON LA OPCION NEXT PARA LEER LOS REGISTROS EN ORDEN SECUENCIAL,
+O SE PUEDE USAR LA INSTRUCCION READ CON LA OPCION KEY PARA LEER LOS REGISTROS POR SU VALOR DE CLAVE.
+
+ACCES MODE RANDOM: ESTE MODO SOLO PERMITE ACCEDER A LOS REGISTROS DE FORMA ALEATORIA, USANDO EL VALOR DE LA LLAVE PRIMARIA
+O LA LLAVE ALTERNA O DE LA LLAVE RELATIVA, PARA ARCHIVOS RELATIVE.
+
+ACCES SEQUENCIAL: LLEGIR DE FORMA SEQUENCIAL TAL QUAL TOT EL REGISTRE ESTA DE D'ALT BAIX.
+
+***********************************************************************
+READ X INTO Y // WRITE X FROM Y (lee y pon dentro... // Escribe X que proviene de...)
+***********************************************************************
+
+Ejemplo:
+  READ EMPLEADOS INTO WS-REG-EMPLEADOS AT END
+  GO TO 100-FIN.
+
+    Esta línea de código está leyendo un registro del archivo "EMPLEADOS" y almacenándolo en la variable "WS-REG-EMPLEADOS".
+
+WRITE REG-REPORTE FROM WS-DETALLE
+
+    Esta línea de código está tomando los datos almacenados en la variable "WS-DETALLE" y los está escribiendo en el archivo "REG-REPORTE".
