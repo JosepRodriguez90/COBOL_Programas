@@ -42,7 +42,7 @@
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            00-CONTROL.
-               PERFORM 00-ABRIR-ARCHIVO.
+               OPEN EXTEND IMPRIMIRTABLA.
                PERFORM 10-CARGAR-TABLA VARYING C FROM 1 BY 1
                UNTIL C GREATER 4.
 
@@ -55,17 +55,6 @@
            EXIT.
 
 
-           00-ABRIR-ARCHIVO.
-               OPEN I-O IMPRIMIRTABLA.
-
-               IF FILE-STATUS ="35"
-                   DISPLAY "Archivo no encontrado. Se creara uno nuevo."
-                   OPEN OUTPUT IMPRIMIRTABLA
-               END-IF.
-           00-ABRIR-ARCHIVO-END.
-           EXIT.
-
-
            10-CARGAR-TABLA.
                DISPLAY "Inserte el ataque "C.
                ACCEPT WS-ATAQUE(C).
@@ -74,9 +63,7 @@
 
 
            20-MOSTRAR-TABLA.
-           WRITE FD-TABLA FROM WS-ATAQUE(C)
-           AFTER ADVANCING PAGE.
-
+           WRITE FD-TABLA FROM WS-ATAQUE(C) BEFORE ADVANCING PAGE.
            DISPLAY WS-ATAQUE(C).
 
            20-MOSTRAR-TABLA-END.
