@@ -10,7 +10,7 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
        SELECT IMPRIMIRTABLA ASSIGN TO
-       "C:\Users\34636\Documents\COBOL-Crear-archivos\imprimirtabla"
+       "C:\Users\34636\Documents\COBOL-Crear-archivos\imprimirtabla.txt"
        FILE STATUS IS FILE-STATUS.
 
        DATA DIVISION.
@@ -56,6 +56,8 @@
                PERFORM 20-MOSTRAR-TABLA VARYING C FROM 1 BY 1
                UNTIL C GREATER 4.
 
+               PERFORM 30-IMPRIMIR.
+
                CLOSE IMPRIMIRTABLA.
                STOP RUN.
            00-CONTROL-FIN.
@@ -82,20 +84,28 @@
 
            20-MOSTRAR-TABLA.
                EVALUATE C
-                   WHEN C EQUAL 1
-                   MOVE WS-ATAQUE(C) TO COPYTAB1.
-                   WHEN C EQUAL 2
-                   MOVE WS-ATAQUE(C) TO COPYTAB2.
-                   WHEN C EQUAL 3
-                   MOVE WS-ATAQUE(C) TO COPYTAB3.
-                   WHEN C EQUAL 4
-                   MOVE WS-ATAQUE(C) TO COPYTAB4.
+                   WHEN 1
+                   MOVE WS-ATAQUE(C) TO COPYTAB1
+                   WHEN 2
+                   MOVE WS-ATAQUE(C) TO COPYTAB2
+                   WHEN 3
+                   MOVE WS-ATAQUE(C) TO COPYTAB3
+                   WHEN 4
+                   MOVE WS-ATAQUE(C) TO COPYTAB4
                END-EVALUATE.
 
                DISPLAY WS-ATAQUE(C).
+
            20-MOSTRAR-TABLA-END.
            EXIT.
 
+
+           30-IMPRIMIR.
+               WRITE FD-TABLA FROM COPYTAB1.
+               WRITE FD-TABLA FROM COPYTAB2 AFTER ADVANCING PAGE.
+               WRITE FD-TABLA FROM COPYTAB3 AFTER ADVANCING PAGE.
+               WRITE FD-TABLA FROM COPYTAB4 AFTER ADVANCING PAGE.
+           30-IMPRIMIR-END.
 
 
        END PROGRAM YOUR-PROGRAM-NAME.
