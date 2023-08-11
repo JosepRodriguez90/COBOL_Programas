@@ -120,12 +120,34 @@ WORKING-STORAGE SECTION.SECTION
     88 ANCIANO VALUE 66 THRU 100
 
 ***********************************************************************
-                               PERFORM (subrutina), GO TO
+                             TABLAS
+***********************************************************************
+
+Tabla amb la longitud que depen del valor de la variable NUMATAQUES:
+
+       01 WS-TABLA.
+           05 WS-ATAQUE OCCURS 1 TO 100 DEPENDING ON NUMATAQUES.
+               10 ATAQUE1   PIC X(10).
+               10 ATAQUE2   PIC X(10).
+               10 ATAQUE3   PIC X(10).
+               10 ATAQUE4   PIC X(10).
+
+Tabla amb longitud (fitxa) declarada:
+
+       01 WS-TABLA.
+           05 WS-ATAQUE OCCURS 1 TIMES.
+               10 ATAQUE1   PIC X(10).
+               10 ATAQUE2   PIC X(10).
+               10 ATAQUE3   PIC X(10).
+               10 ATAQUE4   PIC X(10).
+
+***********************************************************************
+                        PERFORM (subrutina), GO TO
 ***********************************************************************
 PERFOM MOSTRAR-NOMBRE THRU MOSTRAR-APELLIDO (Executa el perform de mostrar-nombre i despres acte seguit el mostrar apellido)
 PERFOM MOSTRAR-NOMBRE 10 TIMES (Executa el perform 10 vegades)
 PERFOM MOSTRAR-NUM UNTIL NUM1 = 100
-PERFORM VARYIUNG NUM1 FROM 1 BY 1 UNTIL NUM1>100 (Comença per 1 s'incrementa 1 fins que el valor del NUM1 sigui mes gran que 100)
+PERFORM VARYING NUM1 FROM 1 BY 1 UNTIL NUM1>100 (Comença per 1 s'incrementa 1 fins que el valor del NUM1 sigui mes gran que 100)
 
 
 *GO TO VS PERFOM
@@ -168,6 +190,7 @@ O LA LLAVE ALTERNA O DE LA LLAVE RELATIVA, PARA ARCHIVOS RELATIVE.
 
 ACCES SEQUENCIAL: LLEGIR DE FORMA SEQUENCIAL TAL QUAL TOT EL REGISTRE ESTA DE D'ALT BAIX.
 
+
 ***********************************************************************
 READ X INTO Y // WRITE X FROM Y (lee y pon dentro... // Escribe X que proviene de...)
 ***********************************************************************
@@ -181,3 +204,24 @@ Ejemplo:
 WRITE REG-REPORTE FROM WS-DETALLE
 
     Esta línea de código está tomando los datos almacenados en la variable "WS-DETALLE" y los está escribiendo en el archivo "REG-REPORTE".
+
+
+
+
+
+
+
+
+***********************************************************************
+ PROGRAMES: Les funcions que te cada programa.
+***********************************************************************
+
+tabla1.cbl:         com fer una taula i buscar un element.
+calcularSueldos:    video del youtube interesant d'unes profesionals calculan el salari utilitzen molt el evaluate.
+PKM1-SORT:          Legeix archiu i fa un sort per ordenal a la forma que vol i despres imprimeix al archiu. (mostra data actual, fa servir un CALL).
+PKM1:               El mateix pero no ordena, llegeix i imprimeix sonse el sort.
+ImprmirTabla:       imprimeix amb un archiu una taula limitada par una variable.
+execiciPKM:         programa amb menu navegable tipo com ho feiam a ilerna (ordena amb la clau alterna).
+suremudi:           t'ensenya a sumar, restar, multiplicar, dividir amb un COMPTE nomes.
+surumudi2:          t'ensenya a sumar, restar, multiplicar, dividir amb les seves instruccions corresponents.
+redefine-tabla:     Redefineix una taula (curios com ho fa).
