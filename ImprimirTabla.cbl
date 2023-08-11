@@ -30,28 +30,38 @@
        01 C    PIC 9(1).
        01 SIGLINIA PIC X VALUE X'0A'.
        01 FILE-STATUS PIC 99.
+       01 NUMATAQUES PIC 9(3).
 
 
        01 WS-TABLA.
-           05 WS-ATAQUE OCCURS 4 TIMES.
+           05 WS-ATAQUE OCCURS 1 TO 100 DEPENDING ON NUMATAQUES.
                10 ATAQUE1   PIC X(10).
                10 ATAQUE2   PIC X(10).
                10 ATAQUE3   PIC X(10).
                10 ATAQUE4   PIC X(10).
 
        PROCEDURE DIVISION.
-       MAIN-PROCEDURE.
+
            00-CONTROL.
                OPEN EXTEND IMPRIMIRTABLA.
+               PERFORM 00-INICIO.
+
                PERFORM 10-CARGAR-TABLA VARYING C FROM 1 BY 1
-               UNTIL C GREATER 4.
+               UNTIL C GREATER NUMATAQUES.
 
                PERFORM 20-MOSTRAR-TABLA VARYING C FROM 1 BY 1
-               UNTIL C GREATER 4.
+               UNTIL C GREATER NUMATAQUES.
 
                CLOSE IMPRIMIRTABLA.
                STOP RUN.
            00-CONTROL-FIN.
+           EXIT.
+           *>***********************************************************
+
+           00-INICIO.
+               DISPLAY "Introduzca el numero de ataques: "
+               ACCEPT NUMATAQUES.
+           00-INICIO-END.
            EXIT.
 
 
