@@ -39,12 +39,6 @@
                10 ATAQUE3   PIC X(10).
                10 ATAQUE4   PIC X(10).
 
-       01 COPYTAB.
-           05 COPYTAB1   PIC X(10).
-           05 COPYTAB2   PIC X(10).
-           05 COPYTAB3   PIC X(10).
-           05 COPYTAB4   PIC X(10).
-
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            00-CONTROL.
@@ -52,11 +46,8 @@
                PERFORM 10-CARGAR-TABLA VARYING C FROM 1 BY 1
                UNTIL C GREATER 4.
 
-
                PERFORM 20-MOSTRAR-TABLA VARYING C FROM 1 BY 1
                UNTIL C GREATER 4.
-
-               PERFORM 30-IMPRIMIR.
 
                CLOSE IMPRIMIRTABLA.
                STOP RUN.
@@ -83,29 +74,13 @@
 
 
            20-MOSTRAR-TABLA.
-               EVALUATE C
-                   WHEN 1
-                   MOVE WS-ATAQUE(C) TO COPYTAB1
-                   WHEN 2
-                   MOVE WS-ATAQUE(C) TO COPYTAB2
-                   WHEN 3
-                   MOVE WS-ATAQUE(C) TO COPYTAB3
-                   WHEN 4
-                   MOVE WS-ATAQUE(C) TO COPYTAB4
-               END-EVALUATE.
+           WRITE FD-TABLA FROM WS-ATAQUE(C)
+           AFTER ADVANCING PAGE.
 
-               DISPLAY WS-ATAQUE(C).
+           DISPLAY WS-ATAQUE(C).
 
            20-MOSTRAR-TABLA-END.
            EXIT.
-
-
-           30-IMPRIMIR.
-               WRITE FD-TABLA FROM COPYTAB1.
-               WRITE FD-TABLA FROM COPYTAB2 AFTER ADVANCING PAGE.
-               WRITE FD-TABLA FROM COPYTAB3 AFTER ADVANCING PAGE.
-               WRITE FD-TABLA FROM COPYTAB4 AFTER ADVANCING PAGE.
-           30-IMPRIMIR-END.
 
 
        END PROGRAM YOUR-PROGRAM-NAME.
