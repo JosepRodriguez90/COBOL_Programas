@@ -11,11 +11,14 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
        SELECT CUENTA ASSIGN TO
-       "C:\Users\34636\Documents\COBOL-Crear-archivos\CUENTA.txt"
+       "C:\Users\34636\Documents\COBOL-Crear-archivos\JDATOSCUENTA.txt"
        ORGANIZATION INDEXED
        ACCESS DYNAMIC
        RECORD KEY IS NUMCUENTA
        FILE STATUS IS FILE-STATUS.
+
+       SELECT SALIDA ASSIGN TO
+       "C:\Users\34636\Documents\COBOL-Crear-archivos\JIMPCUENTA.txt".
 
 
        DATA DIVISION.
@@ -28,29 +31,42 @@
                05 NUMCUENTA PIC X(10).
                05 SALDO PIC 9(5).
 
+       FD SALIDA
+       RECORD CONTAINS 35 CHARACTERS
+       BLOCK CONTAINS 0 RECORDS.
+       01 REGISTRO PIC X(35).
+
        WORKING-STORAGE SECTION.
 
        77 DINERO-SACADO PIC 9(4).
-       77 BUSCAR-CUENTA PIC X(9).
        01 FILE-STATUS PIC 99.
-       77 ENCONTRADO PIC X(1) VALUE "N".
+       77 ENCONTRADO PIC X(1).
        01 CREAR-CUENTA PIC X(5).
        77 OPERACION PIC X.
        77 SALDOVIEJO PIC 9(4) VALUE 2000.
-       *>77 WS-SALDO PIC 9(5).
-       *>77 WS-NUMCUENTA PIC X(10).
+       77 C PIC 9(2).
 
 
-       01 FECHA.
-           06 FECHA_NOMBRE PIC X(7) VALUE "Fecha: ".
+       01 IMPRIMIR.
            06 WS-FECHA PIC X(17).
+           06 ESPACIO PIC X(7) VALUE "  -  ".
+           06 WS-SALDO PIC 9(5).
+           06 FILLER PIC X(6) VALUE "Euros".
 
 
-       01 WS-DATOS-CUENTA.
-           05 WS-NOMBRE PIC X(10).
-           05 WS-APELLIDO PIC X(10).
-           05 WS-NUMCUENTA PIC X(10).
-           05 WS-SALDO PIC 9(5).
+       01 ESTRUCTURA.
+           05 TITULO.
+               06 FILLER PIC X(12) VALUE ALL "*".
+               06 BUSCAR-CUENTA PIC X(9).
+               06 FILLER PIC X(12) VALUE ALL "*".
+               06 FILLER PIC X VALUE X'0A'.
+           05 VALORES.
+               06 FILLER PIC X(35) VALUE
+               "Fecha /                /Dinero ".
+               06 FILLER PIC X VALUE X'0A'.
+           05 RAYAS.
+               06 FILLER PIC X(35) VALUE ALL "-".
+               06 FILLER PIC X VALUE X'0A'.
 
        PROCEDURE DIVISION.
 
@@ -61,7 +77,6 @@
            ELSE IF ENCONTRADO = "S"
                DISPLAY "Numero de cuenta correcto."
            END-IF.
-
 
            IF CREAR-CUENTA = "CREAR"
                PERFORM 20-CREAR-CUENTA
@@ -91,17 +106,18 @@
            MOVE "S" TO ENCONTRADO
            MOVE "CREAR" TO CREAR-CUENTA
            OPEN OUTPUT CUENTA
+           OPEN OUTPUT SALIDA
            DISPLAY "Bienvenido a tu nueva cuenta bancaria."
        ELSE
-           PERFORM 20-LEER-CUENTA UNTIL ENCONTRADO = "S"
+           *>DISPLAY DATOS-CUENTA BUSCAR-CUENTA
+           PERFORM 20-LEER-CUENTA UNTIL ENCONTRADO = "S" OR "N"
        END-IF.
        10-CUENTA-END.
        EXIT.
 
 
        20-LEER-CUENTA.
-       MOVE BUSCAR-CUENTA TO NUMCUENTA
-
+       MOVE BUSCAR-CUENTA TO NUMCUENTA.
        READ CUENTA RECORD
        INVALID KEY
        MOVE "N" TO ENCONTRADO
@@ -120,27 +136,37 @@
            ACCEPT SALDO
            MOVE BUSCAR-CUENTA TO NUMCUENTA.
 
+           WRITE REGISTRO FROM TITULO.
+           WRITE REGISTRO FROM VALORES.
+           WRITE REGISTRO FROM RAYAS AFTER ADVANCING PAGE.
+
 
        20-OPERACION.
            DISPLAY "Desea Sacar dinero o Ingresar? (S/I)"
            ACCEPT OPERACION
+
+           MOVE SALDO TO WS-SALDO.
 
            EVALUATE OPERACION
            WHEN "S"
            COMPUTE WS-SALDO = SALDOVIEJO - WS-SALDO
            WHEN "I"
            COMPUTE WS-SALDO = SALDOVIEJO + WS-SALDO.
+           DISPLAY DATOS-CUENTA.
+
 
            CLOSE CUENTA.
+           IF CREAR-CUENTA="CREAR"
+               CLOSE SALIDA
+           END-IF.
            CALL "FECHA-ACTUAL" USING WS-FECHA.
+           OPEN EXTEND SALIDA.
            OPEN I-O CUENTA.
 
+           WRITE DATOS-CUENTA.
+           WRITE REGISTRO FROM IMPRIMIR.
 
-           WRITE DATOS-CUENTA FROM WS-FECHA.
-
-           WRITE DATOS-CUENTA FROM WS-SALDO.
-           READ
-           DISPLAY DATOS-CUENTA.
+           CLOSE SALIDA CUENTA.
 
        20-OPERACION-END.
 
