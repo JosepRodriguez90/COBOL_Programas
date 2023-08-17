@@ -45,7 +45,6 @@
    IF (NUM1 > NUM2) OR (NUM1 = NUM2) THEN
       DISPLAY 'WS-NUM1 IS GREATER THAN WS-NUM2'
 
-
 ***********************************************************************
                           CARACTERS
 ***********************************************************************
@@ -62,6 +61,8 @@
    INSPECT WS-STRING TALLYING WS-CNT1 FOR ALL WS-CNT1 CHARACTERS    *>Contara el numero de caracters del string
    DISPLAY "Total Characters: " WS-CNT1.
 
+   tambe funciona aixi:
+   MOVE LENGTH OF LONGITUD TO LONGITUD2.
 
    INSPECT WS-STRING TALLYING WS-CNT2 FOR ALL 'A' *>Contara el numero de caracters "A" que hi han
    DISPLAY "Occurrences of 'A': " WS-CNT2.
@@ -69,6 +70,7 @@
    Mostra per pantalla:
    Total Characters: 15
    Occurrences of 'A': 06
+
 
 *REMPLAZAR CARACTERS:
 
@@ -157,6 +159,10 @@ o un párrafo y luego regresa al punto de llamada después de completar su ejecuci
 mientras que "GO TO MOSTRAR-DATO" salta directamente al párrafo o etiqueta especificado y continúa desde ese punto sin retornar al punto de llamada.
 No recomanen el GO TO ya que no funciona de forma tant estructurat i esta absolet.
 
+GO TO ....
+      ....
+      ....
+      DEPENDING ON VARIABLE (fara el go to depenen de si al ACCEPT li fiques un 1 o 2 o 3, anira a la primera/segona o tercera opcio que has ficat tal qual. )
 
 ***********************************************************************
                          OPEN, CLOSE, WRITE
@@ -218,6 +224,7 @@ WRITE REG-REPORTE FROM WS-DETALLE
 
 tabla1.cbl:         com fer una taula i buscar un element.
 calcularSueldos:    video del youtube interesant d'unes profesionals calculan el salari utilitzen molt el evaluate.
+EvaluateTrue:       Evaluate dient que una variable es true.
 PKM1-SORT:          Legeix archiu i fa un sort per ordenal a la forma que vol i despres imprimeix al archiu. (mostra data actual, fa servir un CALL).
 PKM1:               El mateix pero no ordena, llegeix i imprimeix sonse el sort.
 ImprmirTabla:       imprimeix amb un archiu una taula limitada par una variable.
@@ -225,3 +232,4 @@ execiciPKM:         programa amb menu navegable tipo com ho feiam a ilerna (orde
 suremudi:           t'ensenya a sumar, restar, multiplicar, dividir amb un COMPTE nomes.
 surumudi2:          t'ensenya a sumar, restar, multiplicar, dividir amb les seves instruccions corresponents.
 redefine-tabla:     Redefineix una taula (curios com ho fa).
+FECHA-ACTUAL:       Subprograma que passa com a valor la fecha actual amb hora i minuts...

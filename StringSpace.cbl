@@ -17,8 +17,8 @@
            INTO WS-STRING
        END-STRING.
 
-              DISPLAY 'WS-STRING : 'WS-STR1.
-              DISPLAY 'WS-STRING : 'WS-STRING.
+           DISPLAY 'WS-STRING : 'WS-STR1.
+           DISPLAY 'WS-STRING : 'WS-STRING.
 
 
        STOP RUN.

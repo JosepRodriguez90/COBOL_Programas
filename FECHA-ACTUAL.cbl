@@ -33,6 +33,6 @@
             WS-CURRENT-SECOND'"' INTO WS-FECHA
            END-STRING.
 
-            DISPLAY WS-FECHA.
+            *>DISPLAY WS-FECHA.
 
        EXIT PROGRAM.

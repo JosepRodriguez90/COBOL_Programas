@@ -24,7 +24,7 @@
            05 WS-POSTULANTES.
                10 WSV-POSTU1.
                    15 WSV-NOMBRE1          PIC X(5) VALUE "PEDRO".
-                   15 WSV-EXPERIENCIA1     PIC 9(02) VALUE 03.
+                   15 WSV-EXPERIENCIA1     PIC 9(02) VALUE 02.
                    15 WSV-SUELDO1          PIC 9(06).
                    15 WSV-SUELDO-ANUAL-1   PIC 9(07).
                    15 WSV-BONO1            PIC 9(06).
