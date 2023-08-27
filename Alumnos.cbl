@@ -14,36 +14,13 @@
        77 ENTRADA PIC 99 VALUE 99.
 
        01 ALUMNOS.
-           02 ALUMNO1.
-               04 NOMBRE1 PIC A(10).
-               04 APELLIDO1 PIC A(10).
-               04 EDAD1 PIC 9(2).
-               04 CURSO1 PIC X(24).
-               04 NOTA1 PIC 99.
-           02 ALUMNO2.
-               04 NOMBRE2 PIC A(10).
-               04 APELLIDO2 PIC A(10).
-               04 EDAD2 PIC 9(2).
-               04 CURSO2 PIC X(24).
-               04 NOTA2 PIC 9(2)V99.
-           02 ALUMNO3.
-               04 NOMBRE3 PIC A(10).
-               04 APELLIDO3 PIC A(10).
-               04 EDAD3 PIC 9(2).
-               04 CURSO3 PIC X(24).
-               04 NOTA3 PIC 9(2)V99.
-           02 ALUMNO4.
-               04 NOMBRE4 PIC A(10).
-               04 APELLIDO4 PIC A(10).
-               04 EDAD4 PIC 9(2).
-               04 CURSO4 PIC X(24).
-               04 NOTA4 PIC 9(2)V99.
-           02 ALUMNO5.
-               04 NOMBRE5 PIC A(10).
-               04 APELLIDO5 PIC A(10).
-               04 EDAD5 PIC 9(2).
-               04 CURSO5 PIC X(24).
-               04 NOTA5 PIC 9(2)V99.
+           02 ALUMNO.
+               04 NOMBRE PIC A(10).
+               04 APELLIDO PIC A(10).
+               04 EDAD PIC 9(2).
+               04 CURSO PIC X(24).
+               04 NOTA PIC 99.
+
 
 
        01 QUALIFICACIONES.
@@ -65,8 +42,8 @@
        *>DISPLAY ALUMNOS(C)
        *>END-PERFORM.
 
-       DISPLAY NOTA1.
-       DISPLAY ALUMNO1.
+       DISPLAY NOTA.
+       DISPLAY ALUMNO.
 
        STOP RUN.
        00-INICIO-END.
@@ -77,14 +54,14 @@
 
        PERFORM UNTIL ENTRADA IS NUMERIC AND
        ENTRADA >= 0 AND ENTRADA < 10
-           DISPLAY "Introduzca la nota del Sr." NOMBRE1
+           DISPLAY "Introduzca la nota del Sr." NOMBRE
            ACCEPT ENTRADA
            IF ENTRADA IS NOT NUMERIC OR ENTRADA < 0 OR ENTRADA > 10
                DISPLAY
                "Tienes que introducir un numero y que sea del 1 al 10"
            ELSE
-               MOVE ENTRADA TO NOTA1
-               MOVE NOTA1 TO QUALIFICACIONES
+               MOVE ENTRADA TO NOTA
+               MOVE NOTA TO QUALIFICACIONES
                PERFORM 20-QUALIFICAR-NOTA
            END-IF
        END-PERFORM.
